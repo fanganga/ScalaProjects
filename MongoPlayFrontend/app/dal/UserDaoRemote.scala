@@ -1,7 +1,6 @@
 package dal
 
 import scala.collection.immutable.IndexedSeq
-import dal.Helpers._
 import models._
 
 import javax.inject.Inject
