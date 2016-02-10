@@ -1,0 +1,13 @@
+@(userForm: Form[User])(implicit messages: Messages)
+
+@import helper._
+<h1>Add user form </h1>
+
+@form(routes.UserController.addUser()){
+	@inputText(userForm("name"))
+	@inputText(userForm("email"))
+	
+	<div>
+		<input type="submit" value="Add User"/>
+	</div>
+}

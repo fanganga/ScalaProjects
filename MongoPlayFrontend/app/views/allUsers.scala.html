@@ -1,0 +1,14 @@
+@(users: Seq[User])
+<h1>List of all users</h1>
+<table>
+	<tr>
+		<th>Username</th>
+		<th>Email Address</th>
+	</tr>
+	@for(user <- users){
+		<tr>
+			<td>@user.name</td>
+			<td>@user.email</td>
+		</tr>
+	}
+</table>
