@@ -9,7 +9,9 @@ class Application extends Controller {
 
 
   def index = Action {
-    Ok(views.html.index())
+	implicit request =>
+		Ok(views.html.index())
+    Ok(views.html.index()).flashing("success" -> "Welcome")
   }
 
 

@@ -1,4 +1,6 @@
+@()(implicit flash: Flash)
 <h1>User Demo Application</h1>
+@flash.get("success")
 <p>
 	<a href='@routes.UserController.showAddUserForm()'> Add a user </a>
 </p>

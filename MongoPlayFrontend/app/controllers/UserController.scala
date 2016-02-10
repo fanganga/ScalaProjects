@@ -26,11 +26,13 @@ class UserController extends Controller {
 	
 	def addUser = Action { implicit request =>
 		userForm.bindFromRequest.fold(
-			errors => BadRequest(views.html.index()),
+			errors => BadRequest(views.html.addUser(userForm)),
 			userData => {
 				val newUser = models.User(userData.name, userData.email)
 				UserDaoRemote.create(newUser)
-				Redirect(routes.Application.index)
+				Redirect(routes.Application.index).flashing(
+					"success" -> "User created"
+				)
 			}
 		)	
 	}

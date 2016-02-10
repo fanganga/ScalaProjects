@@ -37,7 +37,6 @@ object UserDaoRemote {
 					User(element.get("name").getOrElse("unknown"), element.get("email").getOrElse("unknown"))
 				)
 			}
-				
 		}
 		return Await.result(futureResult,Duration(60000,"millis"))
 	}
