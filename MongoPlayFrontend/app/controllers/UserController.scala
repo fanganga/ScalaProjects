@@ -15,8 +15,8 @@ class UserController extends Controller {
  
 	val userForm: Form[User] = Form{
 		mapping(
-			"name" -> text,
-			"email" -> text
+			"name" -> nonEmptyText,
+			"email" -> nonEmptyText
 		)(User.apply)(User.unapply)
 	}
 
