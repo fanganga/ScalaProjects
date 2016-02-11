@@ -26,7 +26,6 @@ object UserDaoRemote {
 
 	val backendUrl = "http://localhost:9001"
 	def create(userModel: User) {
-		//val futureResponse: Future[WSResponse] = WS.url(backendUrl+"/users/new?name="+userModel.name+"&email="+userModel.email).get()
 		val futureResponse: Future[WSResponse] = WS.url(backendUrl+"/users/new").post(
 			Map("name"->Seq(userModel.name), "email"->Seq(userModel.email)))
 	}
