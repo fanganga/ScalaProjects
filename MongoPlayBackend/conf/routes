@@ -8,3 +8,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET    /users/new					controllers.UserController.addUser
 GET 	/users						controllers.UserController.all
+POST    /users/new					controllers.UserController.addUserPost

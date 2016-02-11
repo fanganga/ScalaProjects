@@ -38,6 +38,27 @@ class UserController extends Controller {
 		}	
 	}
 	
+	def addUserPost = Action { implicit request => {
+			Logger.debug("Received post request to add user")
+			Logger.debug(request.body.toString)
+			userForm.bindFromRequest.fold(
+				formWithErrors => {
+					Logger.error("Attempt to add user failed")
+					for( errorMessage <- formWithErrors.errors ) {
+						Logger.error(errorMessage.message)
+					}
+					BadRequest("Cannot add user")
+				},
+				userData => {
+					Logger.debug("Adding user with name "+userData.name+" and email "+ userData.email)
+					val newUser = models.User(userData.name, userData.email)
+					UserDao.create(newUser)
+					Ok("User created")
+				}
+			)
+		}	
+	}
+	
 	def all = Action {
 		Logger.debug("Received request to list all users")
 		var users:Seq[User] = UserDao.list()
