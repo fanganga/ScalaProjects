@@ -22,22 +22,6 @@ class UserController extends Controller {
 		)(User.apply)(User.unapply)
 	}
 	
-	def addUser = Action { implicit request => {
-			Logger.debug("Received request to add user")
-			var queryParams: Map[String,String] = request.queryString.map { case (k,v) => k -> v.mkString }
-			if(queryParams.get("name").isEmpty || queryParams.get("email").isEmpty) {
-				Logger.debug("Adding user failed - name or email was not supplied")
-				BadRequest("Not enough data")
-			}
-			var name = queryParams.get("name").get
-			var email = queryParams.get("email").get
-			var user: User = User(name, email)
-			UserDao.create(user)
-			Logger.debug("Created user entry for user with name "+name+" and email "+ email)
-			Ok("User created")
-		}	
-	}
-	
 	def addUserPost = Action { implicit request => {
 			Logger.debug("Received post request to add user")
 			Logger.debug(request.body.toString)
