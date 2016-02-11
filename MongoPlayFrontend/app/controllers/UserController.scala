@@ -8,6 +8,7 @@ import play.api.i18n._
 import play.api.data.validation.Constraints._
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.Logger
 import models._
 import dal._
 
@@ -26,8 +27,12 @@ class UserController extends Controller {
 	
 	def addUser = Action { implicit request =>
 		userForm.bindFromRequest.fold(
-			errors => BadRequest(views.html.addUser(userForm)),
+			errors => {
+				Logger.error("Attempt to add user failed")
+				BadRequest(views.html.addUser(userForm))
+			},
 			userData => {
+				Logger.debug("Adding user with name "+userData.name+" and email "+ userData.email)
 				val newUser = models.User(userData.name, userData.email)
 				UserDaoRemote.create(newUser)
 				Redirect(routes.Application.index).flashing(
@@ -38,6 +43,7 @@ class UserController extends Controller {
 	}
 	
 	def all = Action {
+		Logger.debug("Fetching lsit of all users")
 		var users:Seq[User] = UserDaoRemote.list()
 		Ok(views.html.allUsers(users))
 	}

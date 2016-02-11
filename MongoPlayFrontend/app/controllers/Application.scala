@@ -11,7 +11,6 @@ class Application extends Controller {
   def index = Action {
 	implicit request =>
 		Ok(views.html.index())
-    Ok(views.html.index()).flashing("success" -> "Welcome")
   }
 
 
