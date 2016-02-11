@@ -35,20 +35,32 @@ class UserController extends Controller {
 				BadRequest(views.html.addUser(formWithErrors))
 			},
 			userData => {
-				Logger.debug("Adding user with name "+userData.name+" and email "+ userData.email)
-				val newUser = models.User(userData.name, userData.email)
-				UserDaoRemote.create(newUser)
-				Redirect(routes.Application.index).flashing(
-					"success" -> "User created"
-				)
+				try{
+					Logger.debug("Adding user with name "+userData.name+" and email "+ userData.email)
+					val newUser = models.User(userData.name, userData.email)
+					UserDaoRemote.create(newUser)
+					Redirect(routes.Application.index).flashing(
+						"success" -> "User created"	
+					)
+				} catch {
+					case e:Exception => {
+						BadRequest(views.html.error(e.getMessage))
+					}
+				}
 			}
 		)	
 	}
 	
 	def all = Action {
 		Logger.debug("Fetching lsit of all users")
-		var users:Seq[User] = UserDaoRemote.list()
-		Ok(views.html.allUsers(users))
+		try {
+			var users:Seq[User] = UserDaoRemote.list()
+			Ok(views.html.allUsers(users))
+		} catch {
+			case e:Exception => {
+				BadRequest(views.html.error(e.getMessage))
+			}
+		}
 	}
 	
 	case class CreateUserForm(name: String, email: String)
