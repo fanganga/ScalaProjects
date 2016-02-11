@@ -27,9 +27,12 @@ class UserController extends Controller {
 	
 	def addUser = Action { implicit request =>
 		userForm.bindFromRequest.fold(
-			errors => {
+			formWithErrors => {
 				Logger.error("Attempt to add user failed")
-				BadRequest(views.html.addUser(userForm))
+				for( errorMessage <- formWithErrors.errors ) {
+					Logger.error(errorMessage.message)
+				}
+				BadRequest(views.html.addUser(formWithErrors))
 			},
 			userData => {
 				Logger.debug("Adding user with name "+userData.name+" and email "+ userData.email)
